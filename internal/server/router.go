@@ -5,6 +5,8 @@ import (
 	"gorm.io/gorm"
 
 	"go-fiber-basic-api/internal/modules/user"
+	"go-fiber-basic-api/internal/modules/product"
+	"go-fiber-basic-api/internal/modules/file"
 )
 
 func SetupRoutes(app *fiber.App, db *gorm.DB) {
@@ -12,13 +14,27 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 
 	api := app.Group("/api")
 
+	// USER
 	userRepo := user.NewUserRepository(db)
 	userService := user.NewUserService(userRepo)
 	userHandler := user.NewUserController(userService)
 
 	userRoute := api.Group("/users")
-	{
-		userRoute.Get("/", userHandler.GetAll)
-		userRoute.Post("/", userHandler.Create)
-	}
+	userRoute.Get("/", userHandler.GetAll)
+	userRoute.Post("/", userHandler.Create)
+
+	// PRODUCT
+	productRepo := product.NewProductRepository(db)
+	productService := product.NewProductService(productRepo)
+	productHandler := product.NewProductController(productService)
+
+	productRoute := api.Group("/products")
+	productRoute.Get("/", productHandler.GetAll)
+	productRoute.Post("/", productHandler.Create)
+
+	// FILE
+	fileService := file.NewFileService()
+	fileHandler := file.NewFileController(fileService)
+
+	api.Post("/upload", fileHandler.Upload)
 }

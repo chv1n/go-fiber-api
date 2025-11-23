@@ -6,6 +6,9 @@ import (
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
+
+	"go-fiber-basic-api/internal/modules/user"
+    "go-fiber-basic-api/internal/modules/product"
 )
 
 func Connect(cfg *config.Config) *gorm.DB {
