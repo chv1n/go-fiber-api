@@ -20,3 +20,8 @@ func (s *userService) GetUsers() ([]User, error) {
 func (s *userService) CreateUser(u *User) error {
 	return s.repo.Create(u)
 }
+
+
+func (s *userService) test(u *User) error {
+	return s.repo.Create(u)
+}

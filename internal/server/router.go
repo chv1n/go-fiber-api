@@ -5,7 +5,8 @@ import (
 	"gorm.io/gorm"
 
 	"go-fiber-basic-api/internal/modules/user"
-	"go-fiber-basic-api/internal/modules/product"   // ← เพิ่มตรงนี้
+	"go-fiber-basic-api/internal/modules/product"
+	"go-fiber-basic-api/internal/modules/file"
 )
 
 func SetupRoutes(app *fiber.App, db *gorm.DB) {
@@ -30,4 +31,10 @@ func SetupRoutes(app *fiber.App, db *gorm.DB) {
 	productRoute := api.Group("/products")
 	productRoute.Get("/", productHandler.GetAll)
 	productRoute.Post("/", productHandler.Create)
+
+	// FILE
+	fileService := file.NewFileService()
+	fileHandler := file.NewFileController(fileService)
+
+	api.Post("/upload", fileHandler.Upload)
 }
